@@ -98,7 +98,7 @@
             </div>    
             <div class="row">
                 <label for="product_image">Imagen</label>
-                <input type="file" id="product_image" name="product_image" autocomplete="off" placeholder="Insertar Imagen" required>
+                <input type="file" id="product_image" name="product_image" required>
             </div>    
             <div class="row">
                 <label for="product_price">Precio</label>
@@ -178,3 +178,42 @@
 
     </body>
 </html>
+
+<?php
+    if(isset($_POST['insert_post'])){//si se hace la submission de el boton con nombre 'insert_post'
+        //guardo eso que viene en el post en variables locales
+        $product_title = $_POST['product_title']; 
+        $product_cat= $_POST['product_cat']; 
+        $product_brand = $_POST['product_brand'];
+        $product_price = $_POST['product_price'];
+        $product_desc = $_POST['product_desc'];
+        $product_keywords = $_POST['product_keywords'];
+
+        //metodo de agarrar la imagen
+        $product_image = $_FILES['product_image']['name']; //no se hace el target con post. Se hace con FILES
+        $product_image_tmp = $_FILES['product_image']['tmp_name'];
+
+        move_uploaded_file($product_image_tmp,"product_images/$product_image");//la muevo a un repo local
+
+
+        // INSERT INTO `products`
+        // (`product_cat`, `product_brand`, `product_title`, `product_price`, `product_desc`, `product_image`, 
+        // `product_keywords`) 
+        // VALUES ([value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8])
+        
+        $insert_product= "INSERT INTO products (product_cat, product_brand, product_title, product_price, product_desc, product_image, 
+        product_keywords) values ('$product_cat', '$product_brand', '$product_title', '$product_price','$product_desc', '$product_image', 
+        '$product_keywords')";
+        
+        $insert_pro = mysqli_query($con,$insert_product);//mando el query
+        if($insert_pro){
+            echo "<script>alert('Producto fue agregado')</script>";
+            echo "<script>window.open('insert_product.php','_self')</script>";
+        }
+    }
+
+
+
+
+
+?>
