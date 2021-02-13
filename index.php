@@ -11,6 +11,7 @@
         <title>UniMusic</title>
     </head>
     <body>
+
       <header>
           <img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic">
 
@@ -42,7 +43,12 @@
                   <?php getCats();?> 
               </div>
           </div>
-          <a href=""><button class="dropbtn">Marcas</button></a>
+          <div class="dropdown itemNav">
+              <a href=""><button class="dropbtn">Marcas</button></a>
+              <div class="dropdown-content">
+                  <?php getBrands();?> 
+              </div>
+          </div>
 
           <div id="shopping_Cart">
 
@@ -77,13 +83,11 @@
 
       <div class="main-content">
         <div class="content-page">
-          <div class="title-section" style='text-align:center;'><b>Productos destacados</b></div>
+          <div class="title-section" style='text-align:center;'><b><?php cambiarHeader();?></b></div>
           <div class="products-list" id="space-list">
-            <?php 
-            
-              getPro();
-            
-            ?>
+            <?php getPro();?>
+            <?php getCatPro();?>
+            <?php getBrandsPro();?>
           </div>
         </div>
 	    </div>
