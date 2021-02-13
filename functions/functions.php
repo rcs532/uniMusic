@@ -42,8 +42,39 @@ function getBrands(){
 }
 
 
+    //traer los productos de bd
+    function getPro(){
+        global $con;
 
+        $get_pro = "SELECT * FROM products ORDER BY RAND() LIMIT 0,5"; //solo vamos a traer 6 random
 
+        $run_pro = mysqli_query($con,$get_pro);
+
+        while($row_pro = mysqli_fetch_array($run_pro)){
+            
+            $pro_id=$row_pro['product_id'];
+            $pro_cat=$row_pro['product_cat'];
+            $pro_brand=$row_pro['product_brand'];
+            $pro_title=$row_pro['product_title'];
+            $pro_price=$row_pro['product_price'];
+            //$pro_desc=$row_pro['product_desc'];
+            $pro_image=$row_pro['product_image'];
+            //$pro_=$row_pro['product_'];
+
+    echo "
+        <div class='product-box'>
+            <a href='details.php?pro_id=$pro_id'>
+                <div class='product'>
+                    <img src='admin_area/product_images/$pro_image'/>
+                    <div class='detail-title'>$pro_title</div>
+                    <div class='detail-price'>USD:  $pro_price</div>
+                    <a href='index.php?pro_id=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
+                </div>
+            </a>
+        </div>";
+
+        }
+    }
 
 
 

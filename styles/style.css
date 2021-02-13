@@ -435,3 +435,157 @@ Parte Producto Form
   }
 
 }
+
+
+/*
+Products Display------------------------------------------------------------------------------------
+*/
+.main-content{
+	margin-top: 60px;
+	width: 100%;
+	font-family: 'Sen', sans-serif;
+}
+.content-page{
+	margin: auto;
+	padding: 10px;
+	width: calc(100% - 20px);
+	max-width: 1180px;
+}
+.content-page section{
+	display: flex;
+	background: #fff;
+}
+
+.title-section{
+	padding: 10px 0; 
+	font-size: 20px;
+	color: #666;
+	font-family: 'Sen', sans-serif;
+}
+.products-list{
+	display: table;
+	width: 100%;
+}
+.product-box{
+	display: inline-table;
+	padding: 10px;
+	width: calc(100%/5 - 20px);
+}
+.product-box a{
+	text-decoration: none;
+}
+.product{
+	width: 100%;
+	border-radius: 10px;
+	box-shadow: 0 0 8px 3px #ccc;
+	background-color: #fff;
+	font-family: 'Sen', sans-serif;
+}
+.product img{
+	width: 100%;
+	border-radius: 10px 10px 0 0;
+  height: 180px;
+  min-height: 20px;
+}
+.detail-title{
+	padding: 5px;
+	text-align: center;
+	font-size: 18px;
+	color: #333;
+	width: calc(100% - 10px);
+	height: 35px;
+}
+.detail-description{
+	text-align: center;
+	font-size: 14px;
+	color: #333;
+	padding: 5px;
+	width: calc(100% - 10px);
+	height: 34px;
+}
+.detail-price{
+  margin-top: 10%;
+	text-align: center;
+	font-size: 25px;
+	color: gray;
+	padding: 5px;
+	width: calc(100% - 10px);
+  margin-bottom: 10%;
+}
+.detail-price span{
+	font-size: 15px;
+}
+
+.botonToCart{
+  margin-bottom: 10%;
+  background: #15C39A;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  transition: background 0.2s ease-out;
+  margin-left: 25%;
+  color: #fff;
+}
+
+.botonToCart:hover {
+  background: #55D3AC;
+}
+
+
+
+/*Styles de contenido del content car abajo del nav*/
+#shopping_Cart{
+  text-align: center;
+  background-color: black;
+}
+
+#shopping_Cart span{
+  color: white;
+}
+
+
+/*Diseño details.php*/
+
+.part1{
+	padding: 10px;
+	width: calc(60% - 20px);
+}
+.part2{
+	padding: 10px;
+	width: calc(40% - 20px);
+	border-left: 1px solid #ddd;
+}
+.part1 img{
+	width: 100%;
+  max-height: 500px;
+}
+.part2 *{
+	margin: 10px 0;
+	font-family: 'Sen', sans-serif;
+}
+.part2 h2{
+	color: #333;
+	font-size: 30px;
+}
+.part2 h1{
+	color: var(--main-red);
+	font-size: 45px;
+}
+.part2 h1 span{
+	color: #c71212;
+	font-size: 30px;
+}
+.part2 h3{
+	color: #333;
+	font-weight: normal;
+}
+.part2 button{
+	border-style: none;
+	border-radius: 5px;
+	padding: 13px 20px;
+	color: #fff;
+	background: #c71212;
+	cursor: pointer;
+	font-size: 16px;
+}
