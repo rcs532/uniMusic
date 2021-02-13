@@ -63,33 +63,47 @@
         </span>
       </div>
 
-      <!--El slider-->
-      <div id="slider">  
-          <div class="slides">  
-              <img class="slider" src="images/fotosSlider/bestDeals.jpg"/>
-          </div>
-          
-          <div class="slides">  
-              <img class="slider" src="images/fotosSlider/bestProducts.jpg"/>
-          </div>
-          
-          <div class="slides">  
-              <img class="slider" src="images/fotosSlider/bestPrices.jpg"/>
-          </div> 
-          
-          <div id="dot"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-      </div>
 
 
-      <div class="main-content">
-        <div class="content-page">
-          <div class="title-section" style='text-align:center;'><b><?php cambiarHeader();?></b></div>
-          <div class="products-list" id="space-list">
-            <?php getPro();?>
-            <?php getCatPro();?>
-            <?php getBrandsPro();?>
-          </div>
-        </div>
+
+        <div class="main-content">
+            <div class="content-page">
+            <div class="title-section" style='text-align:center;'><b><?php cambiarHeader();?></b></div>
+                <div class="products-list" id="space-list">
+                    <?php 
+                        $get_pro = "SELECT * FROM products";
+
+                        $run_pro = mysqli_query($con,$get_pro);
+
+                        while($row_pro = mysqli_fetch_array($run_pro)){
+                            
+                            $pro_id=$row_pro['product_id'];
+                            $pro_cat=$row_pro['product_cat'];
+                            $pro_brand=$row_pro['product_brand'];
+                            $pro_title=$row_pro['product_title'];
+                            $pro_price=$row_pro['product_price'];
+                            //$pro_desc=$row_pro['product_desc'];
+                            $pro_image=$row_pro['product_image'];
+                            //$pro_=$row_pro['product_'];
+
+                        echo "
+                            <div class='product-box'>
+                                <a href='details.php?pro_id=$pro_id'>
+                                    <div class='product'>
+                                        <img src='admin_area/product_images/$pro_image'/>
+                                        <div class='detail-title'>$pro_title</div>
+                                        <div class='detail-price'>USD:  $pro_price</div>
+                                        <a href='index.php?pro_id=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
+                                    </div>
+                                </a>
+                            </div>";
+
+                        }
+                                    
+                    ?>
+
+                </div>
+            </div>
 	    </div>
 
 

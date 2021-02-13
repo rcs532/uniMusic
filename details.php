@@ -12,21 +12,21 @@
     </head>
     <body>
         <header>
-            <img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic">
+            <a href="index.php"><img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic"></a>
 
             <div class="search-container itemHeader">
                 <form metho="get" action="results.php" enctype="multipart/form-data">
-                    <input type="text" placeholder="Search.." name="user_query">
-                    <input class="submit" type="submit" name="search" value="Search">
+                <input type="text" placeholder="Search.." name="user_query">
+                <input class="submit" type="submit" name="search" value="Search">
                 </form>
             </div>
 
             <div class="dropdown itemHeader">
-                <button class="dropbtn">My account</button>
+                <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
-                    <a href="#">Login User</a>
-                    <a href="#">Register User</a>
-                    <a href="#">Login Provider</a>
+                <a href="#">Login User</a>
+                <a href="#">Register User</a>
+                <a href="#">Login Provider</a>
                 </div>
             </div>
             <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
@@ -34,13 +34,12 @@
         </header>
 
         <nav> <!--equipment, musica, home, brands, instrumentos  -->
-            <a href=""><button class="dropbtn">Home</button></a>
-            <a href=""><button class="dropbtn">All Products</button></a>
+            <a href="index.php"><button class="dropbtn">Home</button></a>
+            <a href="all_products.php"><button class="dropbtn">All Products</button></a>
             <div class="dropdown itemNav">
                 <a href=""><button class="dropbtn">Categorias</button></a>
                 <div class="dropdown-content">
                     <?php getCats();?> 
-                    
                 </div>
             </div>
             <div class="dropdown itemNav">
