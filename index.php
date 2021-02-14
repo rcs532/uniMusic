@@ -16,7 +16,7 @@
           <a href="index.php"><img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic"></a>
 
           <div class="search-container itemHeader">
-              <form metho="get" action="results.php" enctype="multipart/form-data">
+              <form method="get" action="results.php" enctype="multipart/form-data">
                 <input type="text" placeholder="Search.." name="user_query">
                 <input class="submit" type="submit" name="search" value="Search">
               </form>

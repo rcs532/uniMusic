@@ -82,7 +82,7 @@ function getPro(){
 
 //para cambiar el header del display
 function cambiarHeader(){
-    if(!isset($_GET['cat']) && !isset($_GET['brand'])){
+    if(!isset($_GET['cat']) && !isset($_GET['brand']) && !isset($_GET['search'])){
         global $con;
         echo "Productos Destacados";
     }else if(isset($_GET['cat'])){
@@ -111,6 +111,9 @@ function cambiarHeader(){
         $row = mysqli_fetch_array($run);
 
         echo $row['brand_title'];    
+    }else if(isset($_GET['search'])){
+        global $con;
+        echo "Productos Encontrados: ";
     }
 }
 

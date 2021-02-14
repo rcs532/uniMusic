@@ -12,56 +12,56 @@
     </head>
     <body>
 
-      <header>
-          <a href="index.php"><img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic"></a>
+        <header>
+            <a href="index.php"><img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic"></a>
 
-          <div class="search-container itemHeader">
-              <form metho="get" action="results.php" enctype="multipart/form-data">
+            <div class="search-container itemHeader">
+                <form method="get" action="results.php" enctype="multipart/form-data">
                 <input type="text" placeholder="Search.." name="user_query">
                 <input class="submit" type="submit" name="search" value="Search">
-              </form>
-          </div>
+                </form>
+            </div>
 
-          <div class="dropdown itemHeader">
-              <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
-              <div class="dropdown-content">
+            <div class="dropdown itemHeader">
+                <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
+                <div class="dropdown-content">
                 <a href="#">Login User</a>
                 <a href="#">Register User</a>
                 <a href="#">Login Provider</a>
-              </div>
-          </div>
-          <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
+                </div>
+            </div>
+            <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
 
-      </header>
+        </header>
 
-      <nav> <!--equipment, musica, home, brands, instrumentos  -->
-          <a href="index.php"><button class="dropbtn">Home</button></a>
-          <a href="all_products.php"><button class="dropbtn">All Products</button></a>
-          <div class="dropdown itemNav">
-              <a href=""><button class="dropbtn">Categorias</button></a>
-              <div class="dropdown-content">
-                  <?php getCats();?> 
-              </div>
-          </div>
-          <div class="dropdown itemNav">
-              <a href=""><button class="dropbtn">Marcas</button></a>
-              <div class="dropdown-content">
-                  <?php getBrands();?> 
-              </div>
-          </div>
+        <nav> <!--equipment, musica, home, brands, instrumentos  -->
+            <a href="index.php"><button class="dropbtn">Home</button></a>
+            <a href="all_products.php"><button class="dropbtn">All Products</button></a>
+            <div class="dropdown itemNav">
+                <a href=""><button class="dropbtn">Categorias</button></a>
+                <div class="dropdown-content">
+                    <?php getCats();?> 
+                </div>
+            </div>
+            <div class="dropdown itemNav">
+                <a href=""><button class="dropbtn">Marcas</button></a>
+                <div class="dropdown-content">
+                    <?php getBrands();?> 
+                </div>
+            </div>
 
-          <div id="shopping_Cart">
+            <div id="shopping_Cart">
 
-          </div>
+            </div>
 
-      </nav>
-      
+        </nav>
 
-      <div id="shopping_Cart">
-        <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido !<b style="color:yellow">Carrito - </b>
-          Cantidad de Items: Precio Total: 
-        </span>
-      </div>
+
+        <div id="shopping_Cart">
+            <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido !<b style="color:yellow">Carrito - </b>
+                Cantidad de Items: Precio Total: 
+            </span>
+        </div>
 
 
 
@@ -71,7 +71,12 @@
             <div class="title-section" style='text-align:center;'><b><?php cambiarHeader();?></b></div>
                 <div class="products-list" id="space-list">
                     <?php 
-                        $get_pro = "SELECT * FROM products";
+
+                    if(isset($_GET['search'])){//vamos viendo si se dio submit
+
+                        $search_query = $_GET['user_query'];
+
+                        $get_pro = "SELECT * FROM products WHERE product_keywords like CONCAT('%','$search_query','_%')";
 
                         $run_pro = mysqli_query($con,$get_pro);
 
@@ -99,56 +104,57 @@
                             </div>";
 
                         }
+                    }
                                     
                     ?>
 
                 </div>
             </div>
-	    </div>
+        </div>
 
 
-      <footer class="footer-distributed">
+        <footer class="footer-distributed">
 
-          <div class="footer-left">
+            <div class="footer-left">
 
             <img src="images/logo.png" alt="">
 
             <p class="footer-links">
-              <a href="#" class="link-1">Home</a>
+                <a href="#" class="link-1">Home</a>
             
-              <a href="#">Quienes somos</a>
-              
-              <a href="#">Contact</a>
+                <a href="#">Quienes somos</a>
+                
+                <a href="#">Contact</a>
             </p>
 
             <p class="footer-company-name">UniMusic © 2020</p>
-          </div>
+            </div>
 
-          <div class="footer-center">
+            <div class="footer-center">
 
             <div>
-              <p><span>Puerto Madero</span> Buenos Aires, Argentina</p>
+                <p><span>Puerto Madero</span> Buenos Aires, Argentina</p>
             </div>
 
             <div>
-              <p>+54.11.6678.4884</p>
+                <p>+54.11.6678.4884</p>
             </div>
 
             <div>
-              <p><a href="mailto:support@company.com">uniMusic@company.com</a></p>
+                <p><a href="mailto:support@company.com">uniMusic@company.com</a></p>
             </div>
 
-          </div>
+            </div>
 
-          <div class="footer-right">
+            <div class="footer-right">
 
             <p class="footer-company-about">
-              <span>Sobre la pagina</span>
-              Ecommerce creado para la materia Programacion Web
+                <span>Sobre la pagina</span>
+                Ecommerce creado para la materia Programacion Web
             </p>
 
             <div class="footer-icons">
-              <a href="" target="_blank">
+                <a href="" target="_blank">
                 <img width="34" height="34" src="https://res.cloudinary.com/cloudinary-account/image/upload/v1469457641/facebook_khedl5.svg"></a></img>
             
                 <a href="" target="_blank">
@@ -159,8 +165,8 @@
 
             </div>
 
-          </div>
+            </div>
 
-      </footer>
+        </footer>
     </body>
 </html>
