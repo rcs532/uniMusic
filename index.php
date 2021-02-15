@@ -56,12 +56,14 @@
 
       </nav>
       
-
+      <?php cart();?>
       <div id="shopping_Cart">
-        <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido !<b style="color:yellow">Carrito - </b>
-          Cantidad de Items: Precio Total: 
+        <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido ! <b style="color:yellow">Carrito - </b>
+          Cantidad de Items: <?php total_items();?>; Precio Total: <?php total_price(); ?> USD
         </span>
       </div>
+
+      
 
       <!--El slider-->
       <div id="slider">  

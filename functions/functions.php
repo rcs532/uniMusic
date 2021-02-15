@@ -6,6 +6,103 @@ if($con==false){
     echo die(mysqli_connect_error());
 }
 
+function getIp(){ //me sirve para distinguir por valor unico quien esta conectado y darle un experience unica
+    //sacado de stack overflow
+    $ip = $_SERVER['REMOTE_ADDR'];
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+
+    return $ip;
+}
+
+function cart(){
+    
+    if(isset($_GET['add_cart'])){
+        global $con;
+        $pro_id = $_GET['add_cart'];//agarro el id del producto al que le dan click
+        $ip = getIp();
+        $check_pro = "SELECT * FROM cart where ip_add='$ip' AND p_id='$pro_id'";//para que solo agregue uno
+        
+        $run_check = mysqli_query($con,$check_pro);
+
+        if(mysqli_num_rows($run_check)>0){//si hay mas de un producto 
+            echo "";
+        }else{
+            $insert_pro = "INSERT INTO cart(p_id,ip_add) values ('$pro_id','$ip')";//se inserta el prod al que se le dio click
+            $run_pro = mysqli_query($con,$insert_pro);
+
+            echo "<script>window.open('index.php','_self')</script"; //despues de agregarlo se refresca la pagina y 
+            //regreso a ella
+        }
+
+    }
+
+
+}
+
+//obteniento el total de items en carrito
+function total_items(){
+    if(isset($_GET['add_cart'])){
+        global $con;
+
+        $ip = getIp();
+
+        $query_items = "SELECT * FROM cart where ip_add='$ip'"; //agarro todos que fueron agregados por el mismo ip
+
+        $run_items = mysqli_query($con,$query_items);
+
+        $count_items = mysqli_num_rows($run_items);
+
+
+    }else{
+        global $con;
+        $ip = getIp();
+
+        $query_items = "SELECT * FROM cart where ip_add='$ip'"; //agarro todos que fueron agregados por el mismo ip
+
+        $run_items = mysqli_query($con,$query_items);
+
+        $count_items = mysqli_num_rows($run_items);
+        
+    }
+
+    echo $count_items;
+}
+
+//obteniendo el precio total
+function total_price(){
+    $total = 0;
+    global $con;
+
+    $ip = getIp();
+
+    $sel_price = "SELECT * FROM cart where ip_add='$ip'"; //cambiar el ip por el id de usuario mas adelante
+
+
+    $run_price = mysqli_query($con,$sel_price);
+
+    while($p_price = mysqli_fetch_array($run_price)){
+
+        $pro_id  = $p_price['p_id'];
+
+        $pro_price = "SELECT * FROM products where product_id='$pro_id'";//saco data de la tabla products
+
+        $run_pro_price = mysqli_query($con,$pro_price);
+
+        while($pp_price = mysqli_fetch_array($run_pro_price)){
+            $product_price = array($pp_price['product_price']);
+            $values = array_sum($product_price);
+            $total += $values;
+        }
+
+    }
+    echo $total;
+
+
+}
 //getting the categories
 function getCats(){
     global $con;
@@ -71,7 +168,7 @@ function getPro(){
                         <img src='admin_area/product_images/$pro_image'/>
                         <div class='detail-title'>$pro_title</div>
                         <div class='detail-price'>USD:  $pro_price</div>
-                        <a href='index.php?pro_id=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
+                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
                     </div>
                 </a>
             </div>";

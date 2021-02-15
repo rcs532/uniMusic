@@ -11,6 +11,7 @@
         <title>UniMusic</title>
     </head>
     <body>
+
         <header>
             <a href="index.php"><img  class="itemHeader"id="logo" src="images/logo.png" alt="logotipoUniMusic"></a>
 
@@ -49,53 +50,71 @@
                 </div>
             </div>
 
+            <div id="shopping_Cart">
+
+            </div>
 
         </nav>
+        <form action="" method="post">
+            <table align="center" width="100%" bgcolor="skyblue">
+                <tr align="centers">
+                    <th>Borrar</th>
+                    <th>Producto/S</th>
+                    <th>Cantidad</th>
+                    <th>Precio Total</th>
+                </tr>
+                <?php 
+                    $total = 0;
+                    global $con;
+                
+                    $ip = getIp();
+                
+                    $sel_price = "SELECT * FROM cart where ip_add='$ip'"; //cambiar el ip por el id de usuario mas adelante
+                
+                
+                    $run_price = mysqli_query($con,$sel_price);
+                
+                    while($p_price = mysqli_fetch_array($run_price)){
+                
+                        $pro_id  = $p_price['p_id'];
+                
+                        $pro_price = "SELECT * FROM products where product_id='$pro_id'";//saco data de la tabla products
+                        
+                        $run_pro_price = mysqli_query($con,$pro_price);
+                
+                        while($pp_price = mysqli_fetch_array($run_pro_price)){
+                            $product_price = array($pp_price['product_price']);
 
-        <?php cart();?>
-        <div id="shopping_Cart">
-            <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido ! <b style="color:yellow">Carrito - </b>
-                Cantidad de Items: <?php total_items();?>; Precio Total: <?php total_price(); ?> USD
-            </span>
-        </div>
-        <div class="main-content">
-            <div class="content-page">
-                    <?php 
-                        if(isset($_GET['pro_id'])){
-                            $product_id = $_GET['pro_id'];
+                            $product_title = $pp_price['product_title'];
 
-                            $get_pro = "SELECT * FROM products WHERE product_id='$product_id'";
+                            $product_image = $pp_price['product_image'];
 
-                            $run_pro = mysqli_query($con,$get_pro);
-
-                            while($row_pro = mysqli_fetch_array($run_pro)){
-                                $pro_id = $row_pro['product_id'];
-                                $pro_title=$row_pro['product_title'];
-                                $pro_price=$row_pro['product_price'];
-                                $pro_desc=$row_pro['product_desc'];
-                                $pro_image=$row_pro['product_image'];
-                            
-                            echo "                
-                            <section>
-                                <div class='part1'>
-                                    <img id='idimg' src='admin_area/product_images/$pro_image' />
-                                </div>
-                                <div class='part2'>
-                                    <h2 id='idtitle'>$pro_title</h2>
-                                    <h1 id='idprice'><span>USD: $ $pro_price</span></h1>
-                                    <h3 id='iddescription'>$pro_desc</h3>
-                                    <a href='index.php?pro_id=$pro_id'><button>Agregar a Carrito</button>
-                                    <a href='index.php'><button style='background-color:blue;'>Go back</button></a>
-                                </div>
-                            </section>";
-
-                            }
+                            $single_price = $pp_price['product_price'];
+                            $values = array_sum($product_price);
+                            $total += $values;
                         }
-                    ?>
-                    
-                </div>
-            </div>
-	    </div>
+                        ?>
+                        <tr align="center">
+                            <td><input type="checkbox" name="remove[]"></td>
+                            <td><?php echo $product_title;?><br>
+                                <img src="admin_area/product_images/<?php echo $product_image;?>" width="60px" height="60px" style="margin-top:0;">
+                            </td>
+                            <td><input type="text" size="4" name="qty"></td>
+                            <td><?php echo "$".$single_price; ?></td>
+                        </tr>
+                         <?php    
+                    }
+                
+                               
+                ?> 
+                <tr align="right">
+                    <td colspan="4"><b>SubTotal:</b></td>
+                    <td> <?php echo "$".$total; ?></td>
+                </tr> 
+                </table>
+        
+        </form>
+
 
         <footer class="footer-distributed">
 
