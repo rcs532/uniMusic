@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+    session_start();
     include("functions/functions.php");
 ?>
 <html lang="en">
@@ -95,11 +96,33 @@
                         }
                         ?>
                         <tr align="center">
-                            <td><input type="checkbox" name="remove[]"></td>
+                            <td><input type="checkbox" name="remove[]" value="<?php echo $pro_id; ?>"></td>
                             <td><?php echo $product_title;?><br>
                                 <img src="admin_area/product_images/<?php echo $product_image;?>" width="60px" height="60px" style="margin-top:0;">
                             </td>
-                            <td><input type="text" size="4" name="qty"></td>
+                            <td><input type="text" size="4" name="qty"  value="<?php
+                                if(isset($_SESSION['qty'])){
+                                    echo $_SESSION['qty'];
+                                }else{
+                                    echo 1;
+                                }
+                            ?>"/></td>
+                            <?php
+                                global $con;
+                                if(isset($_POST['update_cart'])){
+                                    
+                                    $qty = $_POST['qty']; //cantidad
+
+                                    $update_qty = "UPDATE cart set qty='$qty'";
+
+                                    $run_qty = mysqli_query($con,$update_qty);
+
+                                    $_SESSION['qty'] = $qty;
+
+                                    $total = $total*$qty;
+                                }
+                            
+                            ?>
                             <td><?php echo "$".$single_price; ?></td>
                         </tr>
                          <?php    
@@ -108,12 +131,36 @@
                                
                 ?> 
                 <tr align="right">
-                    <td colspan="4"><b>SubTotal:</b></td>
-                    <td> <?php echo "$".$total; ?></td>
+                    <td colspan="4"><b>SubTotal: </b><?php echo "$".$total; ?></td>
                 </tr> 
-                </table>
+                <tr align="center">
+                    <td><input  class="botonToCart" type="submit" name="delete_cart" value="Borrar Seleccionados"/></td>
+                    <td><input  class="botonToCart" type="submit" name="update_cart" value="Actualizar Seleccion"/></td>
+                    <td><input class="botonToCart" type="submit" name="continue" value="Continua Comprando"/></td>
+                    <td><button class="botonToCart"><a href="checkout.php" style="text-decoration:none;">Checkout</a></button></td>
+                </tr>
+            </table>
         
         </form>
+        <?php 
+            
+                global $con;
+                $ip = getIp();
+                if(isset($_POST['delete_cart'])){ //si se le da click a borrar loopeamos sobre cada uno
+                    //borramos y despues refrescamos
+                    foreach($_POST['remove'] as $remove_id){
+                        $delete_product = "DELETE FROM cart where p_id='$remove_id' AND ip_add='$ip'";
+                        $run_delete = mysqli_query($con,$delete_product);
+                        if($run_delete){
+                            echo "<script>window.open('cart.php','_self')</script>";
+                        }
+                    }
+                }
+                if(isset($_POST['continue'])){//si alguien quiere seguir comprando y salir del carrito
+                    echo "<script>window.open('index.php','_self')</script>";
+                }
+            
+        ?>
 
 
         <footer class="footer-distributed">

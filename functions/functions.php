@@ -248,7 +248,7 @@ function getCatPro(){
                         <img src='admin_area/product_images/$pro_image'/>
                         <div class='detail-title'>$pro_title</div>
                         <div class='detail-price'>USD:  $pro_price</div>
-                        <a href='index.php?pro_id=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
+                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
                     </div>
                 </a>
             </div>";
@@ -291,7 +291,7 @@ function getBrandsPro(){// traigo productos por marcas
                         <img src='admin_area/product_images/$pro_image'/>
                         <div class='detail-title'>$pro_title</div>
                         <div class='detail-price'>USD:  $pro_price</div>
-                        <a href='index.php?pro_id=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
+                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
                     </div>
                 </a>
             </div>";

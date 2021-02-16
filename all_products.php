@@ -56,13 +56,12 @@
 
       </nav>
       
-
+      <?php cart();?>
       <div id="shopping_Cart">
-        <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido !<b style="color:yellow">Carrito - </b>
-          Cantidad de Items: Precio Total: 
+        <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido ! <b style="color:yellow">Carrito - </b>
+          Cantidad de Items: <?php total_items();?>; Precio Total: <?php total_price(); ?> USD
         </span>
       </div>
-
 
 
 
@@ -93,7 +92,7 @@
                                         <img src='admin_area/product_images/$pro_image'/>
                                         <div class='detail-title'>$pro_title</div>
                                         <div class='detail-price'>USD:  $pro_price</div>
-                                        <a href='index.php?pro_id=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
+                                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
                                     </div>
                                 </a>
                             </div>";
