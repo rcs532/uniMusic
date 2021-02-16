@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <?php
+    session_start();
     include("functions/functions.php");
     include("includes/db.php");
+
 ?>
 <html lang="en">
     <head>
@@ -211,8 +213,19 @@
 
         $run_c = mysqli_query($con,$insert_c);
 
-        if($run_c){
-            echo "<script>alert('Usuario creado.')</script>";
+        $sel_cart = "SELECT * FROM cart where ip_add='$ip'";
+        $run_cart = mysqli_query($con,$sel_cart);
+
+        $check_cart = mysqli_num_rows($run_cart);
+
+        if($check_cart==0){//si no hay items en el carrito
+            $_SESSION['customer_email'] = $c_email; // abrimos sesion para la persona que se registro
+            echo "<script>alert('Usuario creado con exito!')</script>";
+            echo "<script>window.open('customer/my_account.php','_self')</script>";
+        }else{
+            $_SESSION['customer_email'] = $c_email; // abrimos sesion para la persona que se registro
+            echo "<script>alert('Usuario creado con exito!')</script>";
+            echo "<script>window.open('checkout.php','_self')</script>"; //si tiene items en el carrito lo mandamos a pagar
         }
     }
 

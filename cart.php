@@ -26,11 +26,19 @@
             <div class="dropdown itemHeader">
                 <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
-                <a href="#">Login User</a>
                 <a href="#">Register User</a>
                 <a href="#">Login Provider</a>
                 </div>
             </div>
+            <div class="dropdown itemHeader">
+            <?php
+              if(!isset($_SESSION['customer_email'])){
+                echo "<a href='checkout.php'><button class='dropbtn'>Login</button></a>";
+              }else{
+                echo "<a href='logout.php'><button class='dropbtn'>Logout</button></a>";
+              }
+            ?>
+          </div>
             <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
 
         </header>
