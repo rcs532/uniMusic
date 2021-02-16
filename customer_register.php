@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
     include("functions/functions.php");
+    include("includes/db.php");
 ?>
 <html lang="en">
     <head>
@@ -99,7 +100,7 @@
 
             <div class="row">
                 <label for="c_country">Pais</label>
-                <select name="c_coutry" id="c_country">
+                <select name="c_country" id="c_country">
                     <option>Select a Country</option>
                     <option>Honduras</option>
                     <option>Argentina</option>
@@ -126,7 +127,7 @@
                 <input type="text" name="c_address" id="c_address" required>
             </div>
 
-            <input type="submit" class="login" value="Crear Cuenta!">
+            <input type="submit" name="register" class="login" value="Crear Cuenta!">
         </form>
 
 
@@ -189,3 +190,30 @@
         
     </body>
 </html>
+
+<?php
+    if(isset($_POST['register'])){//si se le dio click al boton register
+        $ip = getIp();
+        $c_name = $_POST['c_name'];
+        $c_email = $_POST['c_email'];
+        $c_pass = $_POST['c_pass'];
+        $c_image = $_FILES['c_image']['name'];
+        $c_image_tmp = $_FILES['c_image']['tmp_name'];
+        $c_country = $_POST['c_country'];
+        $c_city = $_POST['c_city'];
+        $c_contact = $_POST['c_contact'];
+        $c_address = $_POST['c_address'];
+
+        move_uploaded_file($c_image_tmp,"customer/customer_images/$c_image");
+
+        $insert_c = "INSERT INTO `customers`(`customer_ip`, `customer_name`, `customer_email`, `customer_pass`, `customer_country`, `customer_city`, `customer_contact`, `customer_address`, `customer_image`) 
+        VALUES ('$ip','$c_name','$c_email','$c_pass','$c_country','$c_city','$c_contact','$c_address','$c_image')";
+
+        $run_c = mysqli_query($con,$insert_c);
+
+        if($run_c){
+            echo "<script>alert('Usuario creado.')</script>";
+        }
+    }
+
+?>
