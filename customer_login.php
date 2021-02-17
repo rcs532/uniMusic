@@ -33,9 +33,11 @@
             exit();//no se ejecuta el resto de la pagina si el email o contrasela estan incorrectos
         }
 
-        $ip = getIp();
+        //$ip = getIp();
+        $elCliente = mysqli_fetch_row($run_c);
+        $id_Cliente = $elCliente['customer_id'];
 
-        $sel_cart = "SELECT * FROM cart where ip_add='$ip'";
+        $sel_cart = "SELECT * FROM cart where customer_id='$id_Cliente'";
 
         $run_cart = mysqli_query($con,$sel_cart);
 
@@ -44,7 +46,7 @@
         if($check_customer>0 AND $check_cart==0){
             $_SESSION['customer_email'] = $c_email;
             echo "<script>alert('Login exitoso')</script>";
-            echo "<script>window.open('customer/my_account.php','_self')</script>";
+            echo "<script>window.open('my_account.php','_self')</script>";
         }else{ //si tiene cosas en el carrito lo mando a pagar
             $_SESSION['customer_email'] = $c_email;
             echo "<script>alert('Login exitoso')</script>";

@@ -724,3 +724,22 @@ input[type="radio"]{
   }
 
 }
+/*Diseño my account*/
+#opcionesAccount{
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+}
+
+#idprofile{
+  max-width: 200px;
+  max-height: 200px;
+  margin-right: 0;
+  float: right;
+}
+
+
+#seccionAccount{
+  display: flex;
+  justify-content: center;
+}

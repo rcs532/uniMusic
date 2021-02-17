@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-    session_start();
-    include("functions/functions.php");
+  session_start();
+  include("functions/functions.php");
 ?>
 <html lang="en">
     <head>
@@ -9,8 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles/style.css">
-        <title>Checkout</title>
-        <script type="text/javascript" src="js/loginValidation.js"></script>
+        <title>UniMusic</title>
     </head>
     <body>
 
@@ -31,15 +30,17 @@
                 <a href="#">Login Provider</a>
                 </div>
             </div>
+
             <div class="dropdown itemHeader">
             <?php
-              if(!isset($_SESSION['customer_email'])){
+                if(!isset($_SESSION['customer_email'])){
                 echo "<a href='checkout.php'><button class='dropbtn'>Login</button></a>";
-              }else{
+                }else{
                 echo "<a href='logout.php'><button class='dropbtn'>Logout</button></a>";
-              }
+                }
             ?>
-          </div>
+            </div>
+
             <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
 
         </header>
@@ -69,26 +70,43 @@
         <?php cart();?>
         <div id="shopping_Cart">
             <span style="font-size:18px; padding: 5px; line-height:40px;">
-                <?php
+            <?php
                 if(isset($_SESSION['customer_email'])){
-                    echo "<b>Bienvenido </b>".$_SESSION['customer_email']."<b style='color:yellow'> Tu </b>";
+                    echo "<b>Bienvenido </b>".$_SESSION['customer_email'];
                 }else{
-                    echo "Bienvenido Invitado: ";
+                    echo "<script>alert('Tiene que iniciar una sesion para ver su cuenta')</script>";
+                    echo "<script>window.open('checkout.php','_self')</script>";
                 }
-                ?>
-                <b style="color:yellow">Carrito - </b>
-                Cantidad de Items: <?php if(isset($_SESSION['customer_email'])){total_items();}else{echo"Login para ver";}?>
+            ?>
             </span>
         </div>
 
 
-        <?php
-            if(!isset($_SESSION['customer_email'])){//si no esta seteada la sesion
-                include("customer_login.php");
-            }else{
-                include("payment.php");
-            }
-        ?>
+        <div class="main-content">
+            <h1 align="center">Tu cuenta:</h1>
+            <div class="content-page" id="seccionAccount">
+                <section>
+                    <div class='part1'>
+                        <img id='idprofile' src='<?php
+                            $user = $_SESSION['customer_email'];
+                            $get_img = "SELECT * FROM customers WHERE customer_email='$user'";
+                            $run_img = mysqli_query($con,$get_img);
+                            $row_img = mysqli_fetch_array($run_img);
+
+                            $c_image = $row_img['customer_image'];
+                            $c_name = $row_img['customer_name'];
+                            echo "customer/customer_images/$c_image";
+                        ?>'/>
+                    </div>
+                    <div class='part2' id="opcionesAccount">
+                        <a href="my_account.php?my_orders">My Orders</a>
+                        <a href="my_account.php?edit_account">Edit Account</a>
+                        <a href="my_account.php?change_pass">Change Password</a>
+                        <a href="my_account.php?delete_account">Delete Account</a>
+                    </div>
+                </section>
+            </div>
+        </div>
 
 
         <footer class="footer-distributed">
@@ -146,7 +164,5 @@
             </div>
 
         </footer>
-
-        
     </body>
 </html>

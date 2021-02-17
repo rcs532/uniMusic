@@ -6,37 +6,33 @@ if($con==false){
     echo die(mysqli_connect_error());
 }
 
-function getIp(){ //me sirve para distinguir por valor unico quien esta conectado y darle un experience unica
-    //sacado de stack overflow
-    $ip = $_SERVER['REMOTE_ADDR'];
-    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-
-    return $ip;
-}
 
 function cart(){
     
     if(isset($_GET['add_cart'])){
         global $con;
         $pro_id = $_GET['add_cart'];//agarro el id del producto al que le dan click
-        $ip = getIp();
-        $check_pro = "SELECT * FROM cart where ip_add='$ip' AND p_id='$pro_id'";//para que solo agregue uno
+        $c_email = $_SESSION['customer_email'];
+
+
+        $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
+
+        $run_c = mysqli_query($con,$sel_c);
+
+        $elCliente = mysqli_fetch_array($run_c);
+        $id_Cliente = $elCliente['customer_id'];
+
+        $check_pro = "SELECT * FROM cart where customer_id='$id_Cliente' AND p_id='$pro_id'";//para que solo agregue uno
         
         $run_check = mysqli_query($con,$check_pro);
 
-        if(mysqli_num_rows($run_check)>0){//si hay mas de un producto 
-            echo "";
-        }else{
-            $insert_pro = "INSERT INTO cart(p_id,ip_add) values ('$pro_id','$ip')";//se inserta el prod al que se le dio click
-            $run_pro = mysqli_query($con,$insert_pro);
 
-            echo "<script>window.open('index.php','_self')</script"; //despues de agregarlo se refresca la pagina y 
-            //regreso a ella
-        }
+
+        $insert_pro = "INSERT INTO cart(p_id,customer_id) values ('$pro_id','$id_Cliente')";//se inserta el prod al que se le dio click
+        $run_pro = mysqli_query($con,$insert_pro);
+
+        echo "<script>window.open('index.php',_self)</script"; //despues de agregarlo se refresca la pagina y 
+        //regreso a ella
 
     }
 
@@ -45,29 +41,22 @@ function cart(){
 
 //obteniento el total de items en carrito
 function total_items(){
-    if(isset($_GET['add_cart'])){
-        global $con;
-
-        $ip = getIp();
-
-        $query_items = "SELECT * FROM cart where ip_add='$ip'"; //agarro todos que fueron agregados por el mismo ip
-
-        $run_items = mysqli_query($con,$query_items);
-
-        $count_items = mysqli_num_rows($run_items);
+    global $con;
+    $c_email = $_SESSION['customer_email'];
 
 
-    }else{
-        global $con;
-        $ip = getIp();
+    $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
 
-        $query_items = "SELECT * FROM cart where ip_add='$ip'"; //agarro todos que fueron agregados por el mismo ip
+    $run_c = mysqli_query($con,$sel_c);
 
-        $run_items = mysqli_query($con,$query_items);
+    $elCliente = mysqli_fetch_array($run_c);
+    $id_Cliente = $elCliente['customer_id'];
 
-        $count_items = mysqli_num_rows($run_items);
-        
-    }
+    $query_items = "SELECT * FROM cart where customer_id='$id_Cliente'"; //agarro todos que fueron agregados por el mismo ip
+
+    $run_items = mysqli_query($con,$query_items);
+
+    $count_items = mysqli_num_rows($run_items);
 
     echo $count_items;
 }
@@ -76,10 +65,17 @@ function total_items(){
 function total_price(){
     $total = 0;
     global $con;
+    $c_email = $_SESSION['customer_email'];
 
-    $ip = getIp();
 
-    $sel_price = "SELECT * FROM cart where ip_add='$ip'"; //cambiar el ip por el id de usuario mas adelante
+    $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
+
+    $run_c = mysqli_query($con,$sel_c);
+
+    $elCliente = mysqli_fetch_array($run_c);
+    $id_Cliente = $elCliente['customer_id'];
+
+    $sel_price = "SELECT * FROM cart where customer_id='$id_Cliente'"; //cambiar el ip por el id de usuario mas adelante
 
 
     $run_price = mysqli_query($con,$sel_price);
@@ -93,11 +89,10 @@ function total_price(){
         $run_pro_price = mysqli_query($con,$pro_price);
 
         while($pp_price = mysqli_fetch_array($run_pro_price)){
-            $product_price = array($pp_price['product_price']);
+            $product_price = array($pp_price['product_price']*$p_price['qty']);
             $values = array_sum($product_price);
             $total += $values;
         }
-
     }
     echo $total;
 

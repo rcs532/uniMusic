@@ -27,13 +27,21 @@
             </div>
 
             <div class="dropdown itemHeader">
-                <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
+                <a href="my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
-                <a href="#">Login User</a>
-                <a href="#">Register User</a>
+                <a href="customer_register.php">Register User</a>
                 <a href="#">Login Provider</a>
                 </div>
             </div>
+            <div class="dropdown itemHeader">
+            <?php
+              if(!isset($_SESSION['customer_email'])){
+                echo "<a href='checkout.php'><button class='dropbtn'>Login</button></a>";
+              }else{
+                echo "<a href='logout.php'><button class='dropbtn'>Logout</button></a>";
+              }
+            ?>
+          </div>
             <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
 
         </header>
@@ -62,8 +70,16 @@
 
         <?php cart();?>
         <div id="shopping_Cart">
-            <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido ! <b style="color:yellow">Carrito - </b>
-            Cantidad de Items: <?php total_items();?>; Precio Total: <?php total_price(); ?> USD
+            <span style="font-size:18px; padding: 5px; line-height:40px;">
+                <?php
+                if(isset($_SESSION['customer_email'])){
+                    echo "<b>Bienvenido </b>".$_SESSION['customer_email']."<b style='color:yellow'> Tu </b>";
+                }else{
+                    echo "Bienvenido Invitado: ";
+                }
+                ?>
+                <b style="color:yellow">Carrito - </b>
+                Cantidad de Items: <?php if(isset($_SESSION['customer_email'])){total_items();}else{echo"Login para ver";}?>
             </span>
         </div>
 
@@ -195,7 +211,7 @@
 
 <?php
     if(isset($_POST['register'])){//si se le dio click al boton register
-        $ip = getIp();
+        //$ip = getIp();
         $c_name = $_POST['c_name'];
         $c_email = $_POST['c_email'];
         $c_pass = $_POST['c_pass'];
@@ -208,23 +224,35 @@
 
         move_uploaded_file($c_image_tmp,"customer/customer_images/$c_image");
 
-        $insert_c = "INSERT INTO `customers`(`customer_ip`, `customer_name`, `customer_email`, `customer_pass`, `customer_country`, `customer_city`, `customer_contact`, `customer_address`, `customer_image`) 
-        VALUES ('$ip','$c_name','$c_email','$c_pass','$c_country','$c_city','$c_contact','$c_address','$c_image')";
+        $insert_c = "INSERT INTO `customers`(`customer_name`, `customer_email`, `customer_pass`, `customer_country`, `customer_city`, `customer_contact`, `customer_address`, `customer_image`) 
+        VALUES ('$c_name','$c_email','$c_pass','$c_country','$c_city','$c_contact','$c_address','$c_image')";
 
         $run_c = mysqli_query($con,$insert_c);
 
-        $sel_cart = "SELECT * FROM cart where ip_add='$ip'";
+        if($run_c){
+            echo "<script>alert('Usuario creado con exito!')</script>";
+        }
+
+        $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
+
+        $run_c = mysqli_query($con,$sel_c);
+
+        $elCliente = mysqli_fetch_row($run_c);
+        $id_Cliente = $elCliente['customer_id'];
+
+
+
+        $sel_cart = "SELECT * FROM cart where customer_id='$id_Cliente'";
+        
         $run_cart = mysqli_query($con,$sel_cart);
 
         $check_cart = mysqli_num_rows($run_cart);
 
         if($check_cart==0){//si no hay items en el carrito
             $_SESSION['customer_email'] = $c_email; // abrimos sesion para la persona que se registro
-            echo "<script>alert('Usuario creado con exito!')</script>";
-            echo "<script>window.open('customer/my_account.php','_self')</script>";
+            echo "<script>window.open('my_account.php','_self')</script>";
         }else{
             $_SESSION['customer_email'] = $c_email; // abrimos sesion para la persona que se registro
-            echo "<script>alert('Usuario creado con exito!')</script>";
             echo "<script>window.open('checkout.php','_self')</script>"; //si tiene items en el carrito lo mandamos a pagar
         }
     }

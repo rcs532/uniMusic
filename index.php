@@ -24,9 +24,9 @@
           </div>
 
           <div class="dropdown itemHeader">
-              <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
+              <a href="my_account.php"><button class="dropbtn">My account</button></a>
               <div class="dropdown-content">
-                <a href="#">Register User</a>
+                <a href="customer_register.php">Register User</a>
                 <a href="#">Login Provider</a>
               </div>
           </div>
@@ -69,8 +69,16 @@
       
       <?php cart();?>
       <div id="shopping_Cart">
-        <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido ! <b style="color:yellow">Carrito - </b>
-          Cantidad de Items: <?php total_items();?>; Precio Total: <?php total_price(); ?> USD
+        <span style="font-size:18px; padding: 5px; line-height:40px;">
+          <?php
+            if(isset($_SESSION['customer_email'])){
+              echo "<b>Bienvenido </b>".$_SESSION['customer_email']."<b style='color:yellow'> Tu </b>";
+            }else{
+              echo "Bienvenido Invitado: ";
+            }
+          ?>
+          <b style="color:yellow">Carrito - </b>
+          Cantidad de Items: <?php if(isset($_SESSION['customer_email'])){total_items();}else{echo"Login para ver";}?>
         </span>
       </div>
       

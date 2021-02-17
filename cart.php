@@ -24,21 +24,21 @@
             </div>
 
             <div class="dropdown itemHeader">
-                <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
+                <a href="my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
-                <a href="#">Register User</a>
+                <a href="customer_register.php">Register User</a>
                 <a href="#">Login Provider</a>
                 </div>
             </div>
             <div class="dropdown itemHeader">
-            <?php
-              if(!isset($_SESSION['customer_email'])){
-                echo "<a href='checkout.php'><button class='dropbtn'>Login</button></a>";
-              }else{
-                echo "<a href='logout.php'><button class='dropbtn'>Logout</button></a>";
-              }
-            ?>
-          </div>
+                <?php
+                if(!isset($_SESSION['customer_email'])){
+                    echo "<a href='checkout.php'><button class='dropbtn'>Login</button></a>";
+                }else{
+                    echo "<a href='logout.php'><button class='dropbtn'>Logout</button></a>";
+                }
+                ?>
+            </div>
             <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
 
         </header>
@@ -64,7 +64,7 @@
             </div>
 
         </nav>
-        <form action="" method="post">
+        <form  method="POST">
             <table align="center" width="100%" bgcolor="skyblue">
                 <tr align="centers">
                     <th>Borrar</th>
@@ -73,77 +73,66 @@
                     <th>Precio Total</th>
                 </tr>
                 <?php 
-                    $total = 0;
-                    global $con;
-                
-                    $ip = getIp();
-                
-                    $sel_price = "SELECT * FROM cart where ip_add='$ip'"; //cambiar el ip por el id de usuario mas adelante
-                
-                
-                    $run_price = mysqli_query($con,$sel_price);
-                
-                    while($p_price = mysqli_fetch_array($run_price)){
-                
-                        $pro_id  = $p_price['p_id'];
-                
-                        $pro_price = "SELECT * FROM products where product_id='$pro_id'";//saco data de la tabla products
-                        
-                        $run_pro_price = mysqli_query($con,$pro_price);
-                
-                        while($pp_price = mysqli_fetch_array($run_pro_price)){
-                            $product_price = array($pp_price['product_price']);
+                    if(isset($_SESSION['customer_email'])){
+                        $total = 0;
+                        global $con;
+                        $c_email = $_SESSION['customer_email'];
 
-                            $product_title = $pp_price['product_title'];
 
-                            $product_image = $pp_price['product_image'];
+                        $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
 
-                            $single_price = $pp_price['product_price'];
-                            $values = array_sum($product_price);
-                            $total += $values;
-                        }
-                        ?>
-                        <tr align="center">
-                            <td><input type="checkbox" name="remove[]" value="<?php echo $pro_id; ?>"></td>
-                            <td><?php echo $product_title;?><br>
-                                <img src="admin_area/product_images/<?php echo $product_image;?>" width="60px" height="60px" style="margin-top:0;">
-                            </td>
-                            <td><input type="text" size="4" name="qty"  value="<?php
-                                if(isset($_SESSION['qty'])){
-                                    echo $_SESSION['qty'];
-                                }else{
-                                    echo 1;
-                                }
-                            ?>"/></td>
-                            <?php
-                                global $con;
-                                if(isset($_POST['update_cart'])){
-                                    
-                                    $qty = $_POST['qty']; //cantidad
+                        $run_c = mysqli_query($con,$sel_c);
 
-                                    $update_qty = "UPDATE cart set qty='$qty'";
-
-                                    $run_qty = mysqli_query($con,$update_qty);
-
-                                    $_SESSION['qty'] = $qty;
-
-                                    $total = $total*$qty;
-                                }
+                        $elCliente = mysqli_fetch_array($run_c);
+                        $id_Cliente = $elCliente['customer_id'];
+                    
+                        $sel_price = "SELECT * FROM cart where customer_id='$id_Cliente'"; //cambiar el ip por el id de usuario mas adelante
+                    
+                    
+                        $run_price = mysqli_query($con,$sel_price);
+                    
+                        while($p_price = mysqli_fetch_array($run_price)){
+                    
+                            $pro_id  = $p_price['p_id'];
+                    
+                            $pro_price = "SELECT * FROM products where product_id='$pro_id'";//saco data de la tabla products
                             
+                            $run_pro_price = mysqli_query($con,$pro_price);
+                    
+                            while($pp_price = mysqli_fetch_array($run_pro_price)){
+                                $product_price = array($pp_price['product_price']);
+
+                                $product_title = $pp_price['product_title'];
+
+                                $product_image = $pp_price['product_image'];
+
+                                $single_price = $pp_price['product_price'];
+                                $values = array_sum($product_price);
+                                $total += $values;
+                            }
                             ?>
-                            <td><?php echo "$".$single_price; ?></td>
-                        </tr>
-                         <?php    
+                            <tr align="center">
+                                <td><input type="checkbox" name="remove[]" value="<?php echo $pro_id; ?>"></td>
+                                <td><?php echo $product_title;?><br>
+                                    <img src="admin_area/product_images/<?php echo $product_image;?>" width="60px" height="60px" style="margin-top:0;">
+                                </td>
+                                <td><?php echo "$".$single_price; ?></td>
+                            </tr>
+                            <?php 
+                        }
+                    }else{
+                        echo "<script>alert('Inicie sesion y agregar items para ver Carrito!')</script>";
+                        echo "<script>window.open('checkout.php','_self')</script>";
                     }
                 
                                
                 ?> 
                 <tr align="right">
-                    <td colspan="4"><b>SubTotal: </b><?php echo "$".$total; ?></td>
-                </tr> 
+                    <td colspan="4"><b>SubTotal: </b><?php if(isset($_SESSION['customer_email'])){echo "$".$total;}else{echo "0";} ?></td>
+                </tr><?php
+                ?>
                 <tr align="center">
                     <td><input  class="botonToCart" type="submit" name="delete_cart" value="Borrar Seleccionados"/></td>
-                    <td><input  class="botonToCart" type="submit" name="update_cart" value="Actualizar Seleccion"/></td>
                     <td><input class="botonToCart" type="submit" name="continue" value="Continua Comprando"/></td>
                     <td><button class="botonToCart"><a href="checkout.php" style="text-decoration:none;">Checkout</a></button></td>
                 </tr>
@@ -151,13 +140,22 @@
         
         </form>
         <?php 
-            
+            if(isset($_SESSION['customer_email'])){
                 global $con;
-                $ip = getIp();
+                $c_email = $_SESSION['customer_email'];
+
+
+                $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
+
+                $run_c = mysqli_query($con,$sel_c);
+
+                $elCliente = mysqli_fetch_array($run_c);
+                $id_Cliente = $elCliente['customer_id'];
+
                 if(isset($_POST['delete_cart'])){ //si se le da click a borrar loopeamos sobre cada uno
                     //borramos y despues refrescamos
                     foreach($_POST['remove'] as $remove_id){
-                        $delete_product = "DELETE FROM cart where p_id='$remove_id' AND ip_add='$ip'";
+                        $delete_product = "DELETE FROM cart where p_id='$remove_id' AND customer_id='$id_Cliente'";
                         $run_delete = mysqli_query($con,$delete_product);
                         if($run_delete){
                             echo "<script>window.open('cart.php','_self')</script>";
@@ -167,6 +165,7 @@
                 if(isset($_POST['continue'])){//si alguien quiere seguir comprando y salir del carrito
                     echo "<script>window.open('index.php','_self')</script>";
                 }
+            }
             
         ?>
 

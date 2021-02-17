@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
-    include("functions/functions.php");
+  session_start();
+  include("functions/functions.php");
 ?>
 <html lang="en">
     <head>
@@ -23,12 +24,21 @@
             </div>
 
             <div class="dropdown itemHeader">
-                <a href="customer/my_account.php"><button class="dropbtn">My account</button></a>
+                <a href="my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
                 <a href="#">Login User</a>
                 <a href="#">Register User</a>
                 <a href="#">Login Provider</a>
                 </div>
+            </div>
+            <div class="dropdown itemHeader">
+                <?php
+                if(!isset($_SESSION['customer_email'])){
+                    echo "<a href='checkout.php'><button class='dropbtn'>Login</button></a>";
+                }else{
+                    echo "<a href='logout.php'><button class='dropbtn'>Logout</button></a>";
+                }
+                ?>
             </div>
             <a href="cart.php" id="carrito"><img src="images/carritoIcon.png" class="itemHeader" alt="carrito"></a>
 
@@ -58,7 +68,15 @@
 
         <?php cart();?>
         <div id="shopping_Cart">
-            <span style="font-size:18px; padding: 5px; line-height:40px;">Bienvenido ! <b style="color:yellow">Carrito - </b>
+            <span style="font-size:18px; padding: 5px; line-height:40px;">
+                <?php
+                if(isset($_SESSION['customer_email'])){
+                    echo "<b>Bienvenido </b>".$_SESSION['customer_email']."<b style='color:yellow'> Tu </b>";
+                }else{
+                    echo "Bienvenido Invitado: ";
+                }
+                ?>
+                <b style="color:yellow">Carrito - </b>
                 Cantidad de Items: <?php total_items();?>; Precio Total: <?php total_price(); ?> USD
             </span>
         </div>
