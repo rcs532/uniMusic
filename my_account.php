@@ -9,6 +9,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles/style.css">
+        <script type="text/javascript" src="js/registerValidation.js"></script>
+        <script type="text/javascript" src="js/passValidate.js"></script>
         <title>UniMusic</title>
     </head>
     <body>
@@ -26,7 +28,7 @@
             <div class="dropdown itemHeader">
                 <a href="my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
-                <a href="#">Register User</a>
+                <a href="customer_register.php">Register User</a>
                 <a href="#">Login Provider</a>
                 </div>
             </div>
@@ -107,6 +109,14 @@
                 </section>
             </div>
         </div>
+        <?php
+                    
+            if(isset($_GET['edit_account'])){
+                include("edit_account.php");
+            }else if(isset($_GET['change_pass'])){
+                include("change_pass.php");
+            }
+        ?>
 
 
         <footer class="footer-distributed">
