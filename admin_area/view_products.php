@@ -34,8 +34,8 @@
                     <img src='product_images/$pro_image'/>
                     <div class='detail-title'>$pro_title</div>
                     <div class='detail-price'>USD:  $pro_price</div>
-                    <a href='delete_pro.php'><button id='delete' class='botonToCart'>Eliminar Producto</button></a>
-                    <a href='index.php?edit_pro.php'><button id='delete' class='botonToCart'>Editar Producto</button></a>
+                    <a href='delete_pro.php?delete_pro=$pro_id'><button id='delete' class='botonToCart'>Eliminar Producto</button></a>
+                    <a href='index.php?edit_pro=$pro_id'><button id='delete' class='botonToCart'>Editar Producto</button></a>
                 </div>
             </div>";
 

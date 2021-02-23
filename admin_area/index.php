@@ -49,6 +49,13 @@
               include("login_provider.php");
             }
           }   
+          if(isset($_GET['edit_pro'])){
+            if(isset($_SESSION['brand_email'])){
+              include("edit_pro.php");
+            }else{
+              include("login_provider.php");
+            }
+          }   
         ?>
 
         <footer class="footer-distributed">
