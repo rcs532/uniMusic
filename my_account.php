@@ -29,7 +29,7 @@
                 <a href="my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
                 <a href="customer_register.php">Register User</a>
-                <a href="#">Login Provider</a>
+                <a href="admin_area/index.php?login_provider">Login Provider</a>
                 </div>
             </div>
 

@@ -296,6 +296,79 @@ function getBrandsPro(){// traigo productos por marcas
     }
 }
 
+function getItemsCarrito(){
+    if(isset($_SESSION['customer_email'])){
+        $total = 0;
+        global $con;
+        $c_email = $_SESSION['customer_email'];
 
+        $arregloIds = array();
+
+        $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
+
+        $run_c = mysqli_query($con,$sel_c);
+
+        $elCliente = mysqli_fetch_array($run_c);
+        $id_Cliente = $elCliente['customer_id'];
+    
+        $sel_price = "SELECT * FROM cart where customer_id='$id_Cliente'"; //cambiar el ip por el id de usuario mas adelante
+    
+    
+        $run_price = mysqli_query($con,$sel_price);
+    
+        while($p_price = mysqli_fetch_array($run_price)){
+    
+            $pro_id  = $p_price['p_id'];
+            $arregloIds[] = $pro_id;
+        }
+
+        return $arregloIds;
+    }
+}
+
+function getTotalCarrito(){
+    if(isset($_SESSION['customer_email'])){
+        $total = 0;
+        global $con;
+        $c_email = $_SESSION['customer_email'];
+
+
+        $sel_c = "SELECT * FROM customers WHERE customer_email='$c_email'";
+
+        $run_c = mysqli_query($con,$sel_c);
+
+        $elCliente = mysqli_fetch_array($run_c);
+        $id_Cliente = $elCliente['customer_id'];
+    
+        $sel_price = "SELECT * FROM cart where customer_id='$id_Cliente'"; //cambiar el ip por el id de usuario mas adelante
+    
+    
+        $run_price = mysqli_query($con,$sel_price);
+    
+        while($p_price = mysqli_fetch_array($run_price)){
+    
+            $pro_id  = $p_price['p_id'];
+    
+            $pro_price = "SELECT * FROM products where product_id='$pro_id'";//saco data de la tabla products
+            
+            $run_pro_price = mysqli_query($con,$pro_price);
+    
+            while($pp_price = mysqli_fetch_array($run_pro_price)){
+                $product_price = array($pp_price['product_price']);
+
+                $product_title = $pp_price['product_title'];
+
+                $product_image = $pp_price['product_image'];
+
+                $single_price = $pp_price['product_price'];
+                $values = array_sum($product_price);
+                $total += $values;
+            }
+
+        }
+
+        return $total;
+    }
+}
 
 ?>

@@ -27,7 +27,7 @@
                 <a href="my_account.php"><button class="dropbtn">My account</button></a>
                 <div class="dropdown-content">
                 <a href="customer_register.php">Register User</a>
-                <a href="#">Login Provider</a>
+                <a href="admin_area/index.php?login_provider">Login Provider</a>
                 </div>
             </div>
             <div class="dropdown itemHeader">
@@ -134,7 +134,7 @@
                 <tr align="center">
                     <td><input  class="botonToCart" type="submit" name="delete_cart" value="Borrar Seleccionados"/></td>
                     <td><input class="botonToCart" type="submit" name="continue" value="Continua Comprando"/></td>
-                    <td><button class="botonToCart"><a href="checkout.php" style="text-decoration:none;">Checkout</a></button></td>
+                    <td><button class="botonToCart"><a href="payment.php" style="text-decoration:none;">Checkout</a></button></td>
                 </tr>
             </table>
         
