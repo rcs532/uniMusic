@@ -22,7 +22,7 @@
               }
             
             ?></h1>
-            <a href="logout.php"><button class="dropbtn">Logout</button></a>
+            <a href="<?php  if(isset($_SESSION['brand_email'])){echo "logout.php";}else{echo "index.php?login_provider";}  ?>"><button class="dropbtn"><?php  if(isset($_SESSION['brand_email'])){echo "Logout";}else{echo "Login";}  ?></button></a>
         </header>
 
         <nav> <!--equipment, musica, home, brands, instrumentos  -->

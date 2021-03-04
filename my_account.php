@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="styles/style.css">
         <script type="text/javascript" src="js/registerValidation.js"></script>
         <script type="text/javascript" src="js/passValidate.js"></script>
-        <title>UniMusic</title>
+        <title>My Account</title>
     </head>
     <body>
 
@@ -117,6 +117,8 @@
                 include("change_pass.php");
             }else if(isset($_GET['delete_account'])){
                 include("delete_account.php");
+            }else if(isset($_GET['my_orders'])){
+                include("my_orders.php");
             }
         ?>
 
