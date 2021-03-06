@@ -51,11 +51,18 @@
           }   
           if(isset($_GET['edit_pro'])){
             if(isset($_SESSION['brand_email'])){
-              include("edit_pro.php");
+              include("view_orders.php");
             }else{
               include("login_provider.php");
             }
-          }   
+          }
+          if(isset($_GET['view_orders'])){
+            if(isset($_SESSION['brand_email'])){
+              include("view_orders.php");
+            }else{
+              include("login_provider.php");
+            }
+          }    
         ?>
 
         <footer class="footer-distributed">
@@ -65,11 +72,11 @@
               <img src="../images/logo.png" alt="">
   
               <p class="footer-links">
-                <a href="#" class="link-1">Home</a>
+                <a href="../index.php" class="link-1">Home</a>
               
-                <a href="#">Quienes somos</a>
+                <a href="">Quienes somos</a>
                 
-                <a href="#">Contact</a>
+                <a href="facebook.com">Contact</a>
               </p>
   
               <p class="footer-company-name">UniMusic © 2020</p>
