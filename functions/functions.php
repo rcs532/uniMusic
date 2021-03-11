@@ -141,7 +141,7 @@ function getPro(){
         global $con;
         
 
-        $get_pro = "SELECT * FROM products ORDER BY RAND() LIMIT 0,5"; //solo vamos a traer 6 random
+        $get_pro = "SELECT * FROM products WHERE product_stock>0 ORDER BY RAND() LIMIT 0,10"; //solo vamos a traer 6 random
 
         $run_pro = mysqli_query($con,$get_pro);
 
@@ -156,19 +156,26 @@ function getPro(){
             $pro_image=$row_pro['product_image'];
             //$pro_=$row_pro['product_'];
 
-        echo "
+        $out = "
             <div class='product-box'>
                 <a href='details.php?pro_id=$pro_id'>
                     <div class='product'>
                         <img src='admin_area/product_images/$pro_image'/>
                         <div class='detail-title'>$pro_title</div>
-                        <div class='detail-price'>USD:  $pro_price</div>
-                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
-                    </div>
+                        <div class='detail-price'>USD:  $pro_price</div>";
+        
+        if(isset($_SESSION['customer_email'])){
+            $out.="<a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>";
+        }
+        $out.="            </div>
                 </a>
             </div>";
 
+
+        echo $out;
+
         }
+
     }
 }
 
@@ -216,7 +223,7 @@ function getCatPro(){
         global $con;
         $cat_id = $_GET['cat'];
 
-        $get_cat_pro = "SELECT * FROM products WHERE product_cat = '$cat_id'"; //solo vamos a traer 6 random
+        $get_cat_pro = "SELECT * FROM products WHERE product_cat = '$cat_id' AND product_stock>0"; //solo vamos a traer 6 random
 
         $run_cat_pro = mysqli_query($con,$get_cat_pro);
 
@@ -234,20 +241,23 @@ function getCatPro(){
             //$pro_desc=$row_pro['product_desc'];
             $pro_image=$row_cat_pro['product_image'];
             //$pro_=$row_pro['product_'];
-
-
-            echo "
+            $out = "
             <div class='product-box'>
                 <a href='details.php?pro_id=$pro_id'>
                     <div class='product'>
                         <img src='admin_area/product_images/$pro_image'/>
                         <div class='detail-title'>$pro_title</div>
-                        <div class='detail-price'>USD:  $pro_price</div>
-                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
-                    </div>
+                        <div class='detail-price'>USD:  $pro_price</div>";
+        
+        if(isset($_SESSION['customer_email'])){
+            $out.="<a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>";
+        }
+        $out.="            </div>
                 </a>
             </div>";
-            
+
+
+        echo $out;
 
         }
     }
@@ -261,7 +271,7 @@ function getBrandsPro(){// traigo productos por marcas
         global $con;
         $brand_id = $_GET['brand'];
 
-        $get_brand_pro = "SELECT * FROM products WHERE product_brand = '$brand_id'";
+        $get_brand_pro = "SELECT * FROM products WHERE product_brand = '$brand_id' AND product_stock>0";
 
         $run_brand_pro = mysqli_query($con,$get_brand_pro);
         $count_brands= mysqli_num_rows($run_brand_pro);
@@ -278,19 +288,23 @@ function getBrandsPro(){// traigo productos por marcas
             $pro_image=$row_brand_pro['product_image'];
             //$pro_=$row_pro['product_'];
 
-     
-            echo "
+            $out = "
             <div class='product-box'>
                 <a href='details.php?pro_id=$pro_id'>
                     <div class='product'>
                         <img src='admin_area/product_images/$pro_image'/>
                         <div class='detail-title'>$pro_title</div>
-                        <div class='detail-price'>USD:  $pro_price</div>
-                        <a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>
-                    </div>
+                        <div class='detail-price'>USD:  $pro_price</div>";
+        
+        if(isset($_SESSION['customer_email'])){
+            $out.="<a href='index.php?add_cart=$pro_id'><button class='botonToCart'>Add to Cart</button></a>";
+        }
+        $out.="            </div>
                 </a>
             </div>";
-            
+
+
+        echo $out;
 
         }
     }
@@ -370,5 +384,25 @@ function getTotalCarrito(){
         return $total;
     }
 }
+
+function cambiarStock($idProducto,$idVenta){
+    global $con;
+    $query = "SELECT * FROM detalleventas WHERE idProd='$idProducto' AND idVenta='$idVenta'";
+    $run = mysqli_query($con,$query);
+
+    $cantidadDeProductos = mysqli_num_rows($run); //agarro la cantidad de productos por id y en la misma venta
+
+    $queryStock = "SELECT * FROM products WHERE product_id ='$idProducto'";
+    $runStock = mysqli_query($con,$queryStock);
+    $result = mysqli_fetch_array($runStock);
+    $stock = $result['product_stock'];
+
+    $cantidadActual = $stock - $cantidadDeProductos;
+
+    $queryCambio =  "UPDATE `products` SET `product_stock`=$cantidadActual WHERE product_id ='$idProducto'";
+    $runCambio = mysqli_query($con,$queryCambio);
+
+}
+
 
 ?>

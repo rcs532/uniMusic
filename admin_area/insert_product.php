@@ -66,7 +66,11 @@
             <div class="row">
                 <label for="product_price">Precio</label>
                 <input type="text" id="product_price" name="product_price" autocomplete="off" placeholder="Insertar Precio" required>
-            </div>    
+            </div>
+            <div class="row">
+                <label for="product_stock">Cantidad de Productos</label>
+                <input type="text" id="product_stock" name="product_stock" autocomplete="off" placeholder="Insertar Stock de Producto" required>
+            </div>     
             <div class="row">
                 <label for="product_desc">Descripcion</label>
                 <textarea name="product_desc" id="product_desc" cols="20" rows="10"></textarea>
@@ -94,7 +98,7 @@
         $product_price = $_POST['product_price'];
         $product_desc = $_POST['product_desc'];
         $product_keywords = $_POST['product_keywords'];
-
+        $product_stock = $_POST['product_stock'];
         //metodo de agarrar la imagen
         $product_image = $_FILES['product_image']['name']; //no se hace el target con post. Se hace con FILES
         $product_image_tmp = $_FILES['product_image']['tmp_name'];
@@ -107,14 +111,14 @@
         // `product_keywords`) 
         // VALUES ([value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8])
         
-        $insert_product= "INSERT INTO products (product_cat, product_brand, product_title, product_price, product_desc, product_image, 
-        product_keywords) values ('$product_cat', '$product_brand', '$product_title', '$product_price','$product_desc', '$product_image', 
-        '$product_keywords')";
+        $insert_product= "INSERT INTO `products`(`product_cat`, `product_brand`, `product_title`, `product_price`, `product_stock`, `product_desc`, `product_image`, `product_keywords`) VALUES ('$product_cat','$product_brand','$product_title','$product_price','$product_stock','$product_desc','$product_image','$product_keywords')";
         
         $insert_pro = mysqli_query($con,$insert_product);//mando el query
         if($insert_pro){
             echo "<script>alert('Producto fue agregado')</script>";
             echo "<script>window.open('index.php?insert_product','_self')</script>";
+        }else{
+            echo "<script>alert('Producto NOOO fue agregado')</script>";
         }
     }
 

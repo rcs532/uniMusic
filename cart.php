@@ -69,7 +69,6 @@
                 <tr align="centers">
                     <th>Borrar</th>
                     <th>Producto/S</th>
-                    <th>Cantidad</th>
                     <th>Precio Total</th>
                 </tr>
                 <?php 

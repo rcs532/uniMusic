@@ -136,7 +136,7 @@ if(isset($_POST['comprar'])){//si se apreta el boton de intentar Pago(y se valid
     //ya estan arriba los datos del cliente
     $totalCarrito = getTotalCarrito();
     $mydate = getdate();
-    $fechaCompra = "$mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
+    $fechaCompra = "$mydate[weekday], $mydate[month] $mydate[mday], $mydate[year], $mydate[hours]:$mydate[minutes]:$mydate[seconds] seconds ";
     $queryVentas = "INSERT INTO `ventas`(`idCliente`, `fecha`,`precioTotal`) VALUES ('$id_Cliente','$fechaCompra','$totalCarrito')";
     $runqueryVentas = mysqli_query($con,$queryVentas);
     //agrego detalles de la venta
@@ -152,10 +152,13 @@ if(isset($_POST['comprar'])){//si se apreta el boton de intentar Pago(y se valid
     while($i<sizeof($arregloDeProductos)){
         $query = "INSERT INTO `detalleventas`(`idProd`, `idVenta`) VALUES ('$arregloDeProductos[$i]','$idVenta')";
         $run = mysqli_query($con,$query);
+        cambiarStock($arregloDeProductos[$i],$idVenta);
+        $queryCarrito = "DELETE FROM `cart` WHERE `customer_id`='$id_Cliente' AND p_id='$arregloDeProductos[$i]'";
+        $runQueryCarrito = mysqli_query($con,$queryCarrito);
         $i++;
     }
 
-
+    
     echo "<script>alert('Compra exitosa')</script>";
     echo "<script>window.open('index.php','_self')</script>";
 }

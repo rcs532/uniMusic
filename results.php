@@ -93,7 +93,7 @@
 
                         $search_query = $_GET['user_query'];
 
-                        $get_pro = "SELECT * FROM products WHERE product_keywords like CONCAT('%','$search_query','_%')";
+                        $get_pro = "SELECT * FROM products WHERE product_keywords like CONCAT('%','$search_query','%')";
 
                         $run_pro = mysqli_query($con,$get_pro);
 

@@ -15,7 +15,7 @@
     </head>
     <body>
         <header>
-            <a href="index.php"><img  class="itemHeader"id="logo" src="../images/logo.png" alt="logotipoUniMusic"></a>
+            <a href="../index.php"><img  class="itemHeader"id="logo" src="../images/logo.png" alt="logotipoUniMusic"></a>
             <h1 id="titulo">Bienvenido <?php
               if(isset($_SESSION['brand_email'])){
                 echo $_SESSION['brand_email']; 

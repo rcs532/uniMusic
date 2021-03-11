@@ -92,6 +92,7 @@
                                 $pro_price=$row_pro['product_price'];
                                 $pro_desc=$row_pro['product_desc'];
                                 $pro_image=$row_pro['product_image'];
+                                $pro_stock = $row_pro['product_stock'];
                             
                             echo "                
                             <section>
@@ -101,8 +102,9 @@
                                 <div class='part2'>
                                     <h2 id='idtitle'>$pro_title</h2>
                                     <h1 id='idprice'><span>USD: $ $pro_price</span></h1>
+                                    <h1 id='idprice'><span>En stock: $pro_stock</span></h1>
                                     <h3 id='iddescription'>$pro_desc</h3>
-                                    <a href='index.php?pro_id=$pro_id'><button>Agregar a Carrito</button>
+                                    <a href='index.php?add_cart=$pro_id'><button>Agregar a Carrito</button>
                                     <a href='index.php'><button style='background-color:blue;'>Go back</button></a>
                                 </div>
                             </section>";
