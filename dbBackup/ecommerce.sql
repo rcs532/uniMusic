@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2021 at 11:15 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.2
+-- Generation Time: Mar 24, 2021 at 04:43 PM
+-- Server version: 10.4.18-MariaDB
+-- PHP Version: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -62,15 +62,6 @@ CREATE TABLE `cart` (
   `p_id` int(10) NOT NULL,
   `customer_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`p_id`, `customer_id`) VALUES
-(7, 10),
-(10, 10),
-(11, 10);
 
 -- --------------------------------------------------------
 
@@ -135,9 +126,10 @@ CREATE TABLE `detalleventas` (
 --
 
 INSERT INTO `detalleventas` (`idDetalle`, `idProd`, `idVenta`) VALUES
-(3, 7, 13),
-(4, 10, 13),
-(5, 11, 13);
+(6, 7, 14),
+(7, 10, 14),
+(8, 11, 14),
+(9, 5, 14);
 
 -- --------------------------------------------------------
 
@@ -151,6 +143,7 @@ CREATE TABLE `products` (
   `product_brand` int(100) NOT NULL,
   `product_title` varchar(255) NOT NULL,
   `product_price` text NOT NULL,
+  `product_stock` int(100) NOT NULL,
   `product_desc` varchar(200) NOT NULL,
   `product_image` text NOT NULL,
   `product_keywords` text NOT NULL
@@ -160,19 +153,19 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_cat`, `product_brand`, `product_title`, `product_price`, `product_desc`, `product_image`, `product_keywords`) VALUES
-(4, 2, 7, 'Audio Technica M50x', '149', 'Audio tehnica audifonos over ear profesionales.', 'm50x.jpg', 'audifonos, nuevo, audiotechnica'),
-(5, 2, 2, 'PowerBeats Pro', '230', 'Audifonos true wireless Beats modelo in-ear.', 'powerBeatsPro.jpg', 'beats, wireless, audifonos'),
-(7, 4, 12, 'Gibson SG guitar', '1694', 'Guitarra electrica original Gibson SG.', 'originalSGgibson.jpg', 'nueva, gibson, electrica, guitarra'),
-(8, 4, 10, 'Guitarra clasica palmer P41NE', '72', 'Guitarra clasica palmer', 'PALMERp41ne.jpg', 'palmer, clasica, nueva, guitarra'),
-(9, 4, 9, 'Guitarra Yamaha F335', '199', 'Guitarra Yamaha clasica.', 'yamahaF335.jpg', 'yamaha, nueva, clasica, guitarra'),
-(10, 1, 2, 'Beats Pill 2020', '150', 'Beats pill edicion 2020', 'beatsPill.jpg', 'beats, bluetooth, nuevo, parlante'),
-(11, 1, 3, 'Sound Link', '200', 'Bose soundlink bluetooth speaker', 'boseSoundLink.jpg', 'bluetooth, bose, nuevo, parlante'),
-(12, 1, 4, 'Pulse 4', '249', 'Jbl pulse 4 bluetooth speaker', 'jblPulse4.png', 'jbl, nuevo, bluetooth, parlante'),
-(13, 1, 6, 'sonos Move', '399', 'Sonos move bluetooth speaker', 'sonosMove.jpg', 'sonos, bluetooth, nuevo, parlante'),
-(14, 3, 9, 'Yamaha Vinyl500', '699', 'Tocadiscos yamaha modelo vinyl 500.', 'vinyl500.jpg', 'yamaha, vinilo, toca discos, nuevo'),
-(15, 3, 3, 'Bose Vinyl 360', '899', 'Tocadiscos bose modelo 360.', 'bose360.jpg', 'bose, toca discos, nuevo'),
-(16, 3, 7, 'Audio Technica ATLPW', '599', 'Tocadiscos audioTechnica model atlwp30', 'vinylATLPW30TK.jpg', 'audio technica, toca discos, nuevo');
+INSERT INTO `products` (`product_id`, `product_cat`, `product_brand`, `product_title`, `product_price`, `product_stock`, `product_desc`, `product_image`, `product_keywords`) VALUES
+(4, 2, 7, 'Audio Technica M50x', '149', 10, 'Audio tehnica audifonos over ear profesionales.', 'm50x.jpg', 'audifonos, nuevo, audiotechnica'),
+(5, 2, 2, 'PowerBeats Pro', '230', 9, 'Audifonos true wireless Beats modelo in-ear.', 'powerBeatsPro.jpg', 'beats, wireless, audifonos'),
+(7, 4, 12, 'Gibson SG guitar', '1694', 9, 'Guitarra electrica original Gibson SG.', 'originalSGgibson.jpg', 'nueva, gibson, electrica, guitarra'),
+(8, 4, 10, 'Guitarra clasica palmer P41NE', '72', 10, 'Guitarra clasica palmer', 'PALMERp41ne.jpg', 'palmer, clasica, nueva, guitarra'),
+(9, 4, 9, 'Guitarra Yamaha F335', '199', 10, 'Guitarra Yamaha clasica.', 'yamahaF335.jpg', 'yamaha, nueva, clasica, guitarra'),
+(10, 1, 2, 'Beats Pill 2020', '150', 9, 'Beats pill edicion 2020', 'beatsPill.jpg', 'beats, bluetooth, nuevo, parlante'),
+(11, 1, 3, 'Sound Link', '200', 9, 'Bose soundlink bluetooth speaker', 'boseSoundLink.jpg', 'bluetooth, bose, nuevo, parlante'),
+(12, 1, 4, 'Pulse 4', '249', 10, 'Jbl pulse 4 bluetooth speaker', 'jblPulse4.png', 'jbl, nuevo, bluetooth, parlante'),
+(13, 1, 6, 'sonos Move', '399', 10, 'Sonos move bluetooth speaker', 'sonosMove.jpg', 'sonos, bluetooth, nuevo, parlante'),
+(14, 3, 9, 'Yamaha Vinyl500', '699', 10, 'Tocadiscos yamaha modelo vinyl 500.', 'vinyl500.jpg', 'yamaha, vinilo, toca discos, nuevo'),
+(15, 3, 3, 'Bose Vinyl 360', '899', 10, 'Tocadiscos bose modelo 360.', 'bose360.jpg', 'bose, toca discos, nuevo'),
+(16, 3, 7, 'Audio Technica ATLPW', '599', 10, 'Tocadiscos audioTechnica model atlwp30', 'vinylATLPW30TK.jpg', 'audio technica, toca discos, nuevo');
 
 -- --------------------------------------------------------
 
@@ -192,7 +185,7 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`idVenta`, `idCliente`, `fecha`, `precioTotal`) VALUES
-(13, 10, 'Tuesday, March 2, 2021', 2044);
+(14, 10, 'Wednesday, March 24, 2021, 16:41:45 seconds ', 2274);
 
 --
 -- Indexes for dumped tables
@@ -272,7 +265,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `detalleventas`
 --
 ALTER TABLE `detalleventas`
-  MODIFY `idDetalle` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idDetalle` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -284,7 +277,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `idVenta` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idVenta` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
